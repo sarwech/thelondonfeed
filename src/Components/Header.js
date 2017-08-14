@@ -1,8 +1,27 @@
 import React, { Component } from 'react';
+import skyline from '../skyline.png';
+import { Nav, NavItem , Image } from 'react-bootstrap';
+
+const tabs = ['Updates','Reviews','Cats!'];
 
 class Header extends Component {
+
 	render() {
-		return <h1>Hello World</h1>
+		return (
+			<div>
+				<div className='header'>
+					<ul>
+						<li><h1>The Feed</h1></li>
+						<li><Image src={skyline} alt='banner' responsive /></li>
+					</ul>
+     <Nav bsStyle='tabs' activeKey={this.props.eventKey} >
+       {tabs.map((e, i) => {
+       	return <NavItem key={i} eventKey={i} onClick={this.props.handleClick.bind(this,i)}>{e}</NavItem>
+       })}
+     </Nav>
+				</div>
+			</div>
+			)
 	}
 }
 

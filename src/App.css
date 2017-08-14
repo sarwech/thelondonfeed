@@ -18,7 +18,18 @@
   font-size: large;
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+ul {
+  display: inline-block;
+  padding: 2px;
+  margin: 5px;
+}
+
+li {
+  list-style: none;
+  float: left;
+}
+
+.tab-options {
+  border: 1px solid #000;
+  padding: 5px;
 }
