@@ -21,7 +21,6 @@ class Feed extends Component {
 				{this.props.currentTab === 0 ? 
 				<div>
 					<h1>Updates</h1>
-					<button onClick={this.props.handleFeed}>Get Feed</button>
 					{travel}
 				</div>
 				:null}
@@ -29,7 +28,6 @@ class Feed extends Component {
 				{this.props.currentTab === 1 ?
 				<div>
 					<h1>Reviews</h1>
-					<button onClick={this.props.handleFeed}>Get Feed</button>
 					{reviews}
 				</div>
 				:null}
@@ -37,7 +35,6 @@ class Feed extends Component {
 				{this.props.currentTab === 2 ?
 				<div>
 					<h1>Cats</h1>
-					<button onClick={this.props.handleFeed}>Get Feed</button>
 					{gifs}
 				</div>
 				:null}

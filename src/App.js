@@ -27,7 +27,7 @@ class App extends Component {
  	});
  }
 
-	handleData() {
+ componentDidMount() {
 		fetch('https://the-london-feed.herokuapp.com/sync')
 			.then(response => {
 				return response;
@@ -49,14 +49,14 @@ class App extends Component {
 				});
 			})
 			.catch(e => e)
-}
+		}
 
 	render() {
 
 		return (
 			<div>
 				<Header eventKey={this.state.activeKey} handleClick={this.handleSelect}/>
-				<Feed currentTab={this.state.activeKey} handleFeed={()=>this.handleData()} travelSource={this.state.travelSource} reviewsSource={this.state.reviewsSource} gifsSource={this.state.gifsSource}/>
+				<Feed currentTab={this.state.activeKey} travelSource={this.state.travelSource} reviewsSource={this.state.reviewsSource} gifsSource={this.state.gifsSource}/>
 			</div>
 		);
 	}
