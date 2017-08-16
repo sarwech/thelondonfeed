@@ -23,9 +23,9 @@ class Feed extends Component {
 					<h1>Updates</h1>
 					{this.props.travelSource.map((travel,i) => {
 						return (
-							<div key={travel.id}>
+							<div key={travel.id} className="list">
 								<Image src={travel.user.profile_image_url_https} alt={i-1} responsive/>
-								<p>{travel.user.name}</p>
+								<a>{travel.user.name}</a>
 								<p>{travel.text}</p>
 							</div>
 							)
@@ -38,7 +38,7 @@ class Feed extends Component {
 					<h1>Reviews</h1>
 					{this.props.reviewsSource.map((review,i) => {
 						return (
-							<div key={reviews.id}>
+							<div key={reviews.id} className="list">
 								<p>Restaurant: {review.name}. Type: {review.categories[0].title} {review.rating} {review.price}</p>
 							</div>
 							)

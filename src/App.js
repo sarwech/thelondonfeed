@@ -2,6 +2,8 @@ import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
 import Header from './Components/Header.js'; // eslint-disable-line no-unused-vars
 import Feed from './Components/Feed.js'; // eslint-disable-line no-unused-vars
 import './App.css';
+// import io from 'socket.io-client';
+// const socket = io();
 
 class App extends Component {
 	constructor(props) {
@@ -14,7 +16,8 @@ class App extends Component {
 			source: [],
 			travelSource: [],
 			reviewsSource: [],
-			gifsSource: []
+			gifsSource: [],
+			socketData: []
 		};
 		this.handleSelect = this.handleSelect.bind(this);	
 	}
@@ -46,6 +49,36 @@ class App extends Component {
 				});
 			})
 			.catch(e => e);
+			// socket.on('test', data => {
+			// 	console.log(data);
+			// 	socket.emit('test2', { my: 'helloback' });
+			// });
+			// Create a new WebSocket.
+			// var socket = new WebSocket('wss://the-london-feed.herokuapp.com/websocket_ct');
+			// // Show a connected message when the WebSocket is opened.
+			// socket.onopen = function(event) {
+			//   console.log('it works!');
+			// };
+			// socket.onmessage = function(event) {
+			//   console.log(JSON.parse(event.data));
+			// };
+			var wsUrl = 'ws://the-london-feed.herokuapp.com';
+			var ws = new WebSocket(wsUrl + '/websocket_ct');
+
+			ws.onmessage = function(e) {
+			  console.log(e.data)
+			}
+
+			ws.onopen = function() {
+			  console.log('opening...')
+			  ws.send('hello server')
+			}
+
+			ws.onerror = function(error) {
+			  console.log('WebSocket error ' + error)
+			  console.dir(error)
+			}
+
 	}
 
 	render() {
