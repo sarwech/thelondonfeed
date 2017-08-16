@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-import Header from './Components/Header.js';
-import Feed from './Components/Feed.js';
+import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
+import Header from './Components/Header.js'; // eslint-disable-line no-unused-vars
+import Feed from './Components/Feed.js'; // eslint-disable-line no-unused-vars
 import './App.css';
-
-const tabList = [{ 'id': 1, 'name': 'Updates', 'url': '/updates'},{ 'id': 2, 'name': 'Reviews', 'url': '/reviews'},{ 'id': 3, 'name': 'Cats', 'url': '/cats'}];
 
 class App extends Component {
 	constructor(props) {
@@ -18,16 +16,16 @@ class App extends Component {
 			reviewsSource: [],
 			gifsSource: []
 		};
-  this.handleSelect = this.handleSelect.bind(this);	
+		this.handleSelect = this.handleSelect.bind(this);	
 	}
 
- handleSelect(e) {
- 	this.setState({
- 		activeKey: e
- 	});
- }
+	handleSelect(e) {
+		this.setState({
+			activeKey: e
+		});
+	}
 
- componentDidMount() {
+	componentDidMount() {
 		fetch('https://the-london-feed.herokuapp.com/sync')
 			.then(response => {
 				return response;
@@ -40,7 +38,6 @@ class App extends Component {
 				const travel = data.travel;
 				const reviews = data.reviews;
 				const gifs = data.gifs;
-				console.log(gifs);
 				this.setState({
 					source: source,
 					travelSource: travel,
@@ -48,8 +45,8 @@ class App extends Component {
 					gifsSource: gifs,
 				});
 			})
-			.catch(e => e)
-		}
+			.catch(e => e);
+	}
 
 	render() {
 

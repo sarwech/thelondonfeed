@@ -4,16 +4,16 @@ import { Image } from 'react-bootstrap';
 class Feed extends Component {
 
 	render() {
-		const travel = this.props.travelSource.map((e,i) => {
-			return <p key={i}>{this.props.travelSource[i].text}</p>
+		const travel = this.props.travelSource.map((travel,i) => {
+			return <p key={i}>{travel.text}</p>
 		});
 
-		const reviews = this.props.reviewsSource.map((e,i) => {
-			return <p key={i}>{this.props.reviewsSource[i].id}</p>
+		const reviews = this.props.reviewsSource.map((review,i) => {
+			return <p key={i}>{review.id}</p>
 		});
 
-		const gifs = this.props.gifsSource.map((e,i) => {
-			return <Image key={i} src={this.props.gifsSource[i].gif_source} alt={i-1} responsive/>
+		const gifs = this.props.gifsSource.map((gif,i) => {
+			return <Image key={i} src={gif.gif_source} alt={i-1} responsive/>
 		});
 
 		return (
@@ -21,21 +21,37 @@ class Feed extends Component {
 				{this.props.currentTab === 0 ? 
 				<div>
 					<h1>Updates</h1>
-					{travel}
+					{this.props.travelSource.map((travel,i) => {
+						return (
+							<div key={travel.id}>
+								<Image src={travel.user.profile_image_url_https} alt={i-1} responsive/>
+								<p>{travel.user.name}</p>
+								<p>{travel.text}</p>
+							</div>
+							)
+					})}
 				</div>
 				:null}
 
 				{this.props.currentTab === 1 ?
 				<div>
 					<h1>Reviews</h1>
-					{reviews}
+					{this.props.reviewsSource.map((review,i) => {
+						return (
+							<div key={reviews.id}>
+								<p>Restaurant: {review.name}. Type: {review.categories[0].title} {review.rating} {review.price}</p>
+							</div>
+							)
+					})}
 				</div>
 				:null}
 
 				{this.props.currentTab === 2 ?
 				<div>
 					<h1>Cats</h1>
-					{gifs}
+					{this.props.gifsSource.map((gif,i) => {
+						return <Image key={i} src={gif.gif_source} alt={i-1} responsive/>
+					})}
 				</div>
 				:null}
 			</div>
