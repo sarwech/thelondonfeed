@@ -2,8 +2,11 @@ import React, { Component } from 'react'; // eslint-disable-line no-unused-vars
 import Header from './Components/Header.js'; // eslint-disable-line no-unused-vars
 import Feed from './Components/Feed.js'; // eslint-disable-line no-unused-vars
 import './App.css';
-// import io from 'socket.io-client';
-// const socket = io();
+import io from 'socket.io-client';
+const socket_reviews = io('https://the-london-feed.herokuapp.com/reviews');
+// const socket_gifs = io('https://the-london-feed.herokuapp.com/gifs');
+
+socket_reviews.on('connect', () => socket_reviews.emit('start', { data: {}}));
 
 class App extends Component {
 	constructor(props) {
@@ -55,9 +58,7 @@ class App extends Component {
 
 	componentDidMount() {
 		fetch('https://the-london-feed.herokuapp.com/sync')
-			.then(response => {
-				return response.json();
-			})
+			.then(response => response.json())
 			.then(data => {
 				const source = data;
 				const travel = data.travel;
@@ -69,33 +70,15 @@ class App extends Component {
 					reviewsSource: reviews,
 					gifsSource: gifs,
 				});
+				socket_reviews.on('message', ({data: {price, name}} = {}) => {
+					if (!name) { return }
+					const review = { price, name }
+					this.setState({
+						reviewsSource: [{price, name}, ...this.state.reviewsSource]
+					}, () => console.log(this.state.socketData))
+				});
 			})
-			.catch(e => console.error(e))
-			// Create a new WebSocket.
-			var socket = new WebSocket('wss://the-london-feed.herokuapp.com/websocket_ct');
-			// Show a connected message when the WebSocket is opened.
-			socket.onopen = function(event) {
-			  console.log('it works!');
-			};
-			socket.onmessage = function(event) {
-			  console.log(JSON.parse(event.data));
-			};
-			// var wsUrl = 'ws://the-london-feed.herokuapp.com';
-			// var ws = new WebSocket(wsUrl + '/websocket_ct');
-
-			// ws.onmessage = function(e) {
-			//   console.log(e.data)
-			// }
-
-			// ws.onopen = function() {
-			//   console.log('opening...')
-			//   ws.send('hello server')
-			// }
-
-			// ws.onerror = function(error) {
-			//   console.log('WebSocket error ' + error)
-			//   console.dir(error)
-			// }
+			.catch(e => console.error(e));
 
 	}
 
