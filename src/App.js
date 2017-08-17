@@ -4,9 +4,10 @@ import Feed from './Components/Feed.js'; // eslint-disable-line no-unused-vars
 import './App.css';
 import io from 'socket.io-client';
 const socket_reviews = io('https://the-london-feed.herokuapp.com/reviews');
-// const socket_gifs = io('https://the-london-feed.herokuapp.com/gifs');
+const socket_gifs = io('https://the-london-feed.herokuapp.com/gifs');
 
 socket_reviews.on('connect', () => socket_reviews.emit('start', { data: {}}));
+socket_gifs.on('connect', () => socket_gifs.emit('start', { data: {} }));
 
 class App extends Component {
 	constructor(props) {
@@ -32,6 +33,7 @@ class App extends Component {
 	}
 
  handleStar(e) {
+
  	let array = this.state.starred;
  	let index = array.indexOf(e);
  	if (index === 0 && array.length <= 1) {
@@ -77,6 +79,14 @@ class App extends Component {
 						reviewsSource: [{price, name}, ...this.state.reviewsSource]
 					}, () => console.log(this.state.socketData))
 				});
+				socket_gifs.on('message', ({data: {gif_source} } = {} ) => { 
+					if  (!gif_source) { return }
+						const gif = {gif_source}
+					this.setState({
+						gifsSource: [{gif_source}, ...this.state.gifsSource]
+					}, () => console.log(this.state.gifsSource))
+				});
+
 			})
 			.catch(e => console.error(e));
 

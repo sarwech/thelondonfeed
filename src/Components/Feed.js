@@ -40,7 +40,15 @@ class Feed extends Component {
 					{this.props.reviewsSource.map((review,i) => {
 						return (
 							<div key={reviews.id} className="list">
-								<p><Image style={this.props.style[0] === true && this.props.style[1] ? {backgroundColor: 'yellow' } : {backgroundColor: 'none' } } src={star} className="star" data-id={reviews.id} onClick={this.props.handleStar.bind(this,reviews.id)} responsive/> Restaurant: {review.name}. Type: {review.categories && review.categories[0] && review.categories[0].title} {review.rating} {review.price}</p>
+								<p><Image style={this.props.style[0] === true && this.props.style[1] ? 
+									{backgroundColor: 'yellow' } : {backgroundColor: 'none' } } 
+									src={star} 
+									className="star" 
+									data-id={reviews.id} 
+									onClick={this.props.handleStar.bind(this,reviews.id)} responsive/>
+									Restaurant: {review.name}. 
+									Type: {review.categories && review.categories[0] && review.categories[0].title} 
+									{review.rating} {review.price}</p>
 							</div>
 							)
 					})}
