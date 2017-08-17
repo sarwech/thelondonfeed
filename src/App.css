@@ -65,3 +65,8 @@ h1 {
 .list p span:first-child {
   font-weight: 900;
 }
+
+.star {
+  height: 25px;
+  width: 25px;
+}
