@@ -3,9 +3,12 @@ import Header from './Components/Header.js'; // eslint-disable-line no-unused-va
 import Feed from './Components/Feed.js'; // eslint-disable-line no-unused-vars
 import './App.css';
 import io from 'socket.io-client';
+
+const socket_travel = io('https://the-london-feed.herokuapp.com/travel');
 const socket_reviews = io('https://the-london-feed.herokuapp.com/reviews');
 const socket_gifs = io('https://the-london-feed.herokuapp.com/gifs');
 
+socket_travel.on('connect', () => socket_travel.emit('start', { data: {}}));
 socket_reviews.on('connect', () => socket_reviews.emit('start', { data: {}}));
 socket_gifs.on('connect', () => socket_gifs.emit('start', { data: {} }));
 
@@ -32,32 +35,6 @@ class App extends Component {
 		});
 	}
 
- handleStar(e) {
-
- 	let array = this.state.starred;
- 	let index = array.indexOf(e);
- 	if (index === 0 && array.length <= 1) {
- 		this.setState({
- 			starred: []
- 		})
- 	} else if (index !== -1) {
- 		let unjoined = array.splice(index);
- 		this.setState({
- 			starred: unjoined
- 		});
- 	} else {
-	 	let joined = this.state.starred.concat(e);
-			this.setState({
-				starred: joined
-			});
- 	}
- 	let result = index === -1 ? true : false;
- 	this.setState({
- 		currentStar: [result,e]
- 	})
- 	console.log(this.state.currentStar);
-	}
-
 	componentDidMount() {
 		fetch('https://the-london-feed.herokuapp.com/sync')
 			.then(response => response.json())
@@ -72,24 +49,37 @@ class App extends Component {
 					reviewsSource: reviews,
 					gifsSource: gifs,
 				});
-				socket_reviews.on('message', ({data: {price, name}} = {}) => {
-					if (!name) { return }
-					const review = { price, name }
+				socket_travel.on('message', ({data: {text, user}} = {}) => {
+					if (!text) { return }
 					this.setState({
-						reviewsSource: [{price, name}, ...this.state.reviewsSource]
-					}, () => console.log(this.state.socketData))
+						travelSource: [{text, user}, ...this.state.travelSource]
+					})
+				});
+				socket_reviews.on('message', ({data} = {}) => {
+					if (!data) { return }
+						console.log(data);
+						// const review = { price, name }
+					this.setState({
+						reviewsSource: [data, ...this.state.reviewsSource]
+					})
 				});
 				socket_gifs.on('message', ({data: {gif_source} } = {} ) => { 
 					if  (!gif_source) { return }
 						const gif = {gif_source}
 					this.setState({
 						gifsSource: [{gif_source}, ...this.state.gifsSource]
-					}, () => console.log(this.state.gifsSource))
+					}/*, () => console.log(this.state.gifsSource)*/)
 				});
 
 			})
 			.catch(e => console.error(e));
+	}
 
+ handleStar(e) {
+ 	console.log(this.state.starred);
+ 	this.setState({
+ 		starred: [e, ...this.state.starred]
+ 	})
 	}
 
 	render() {
@@ -97,7 +87,9 @@ class App extends Component {
 		return (
 			<div>
 				<Header eventKey={this.state.activeKey} handleClick={this.handleSelect}/>
-				<Feed currentTab={this.state.activeKey} travelSource={this.state.travelSource} reviewsSource={this.state.reviewsSource} gifsSource={this.state.gifsSource} handleStar={this.handleStar} style={this.state.currentStar} faves={this.state.starred} />
+				<Feed currentTab={this.state.activeKey} travelSource={this.state.travelSource} 
+				reviewsSource={this.state.reviewsSource} gifsSource={this.state.gifsSource} 
+				handleStar={this.handleStar} style={this.state.currentStar} faves={this.state.starred} />
 			</div>
 		);
 	}

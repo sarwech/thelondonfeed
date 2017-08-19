@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import skyline from '../skyline.png';
 import { Nav, NavItem , Image } from 'react-bootstrap';
 
-const tabs = ['Updates','Reviews','Cats!','Starred'];
+const tabs = ['Updates','Reviews','Cats!','My Faves'];
 
 class Header extends Component {
 
