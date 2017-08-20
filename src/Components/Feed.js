@@ -92,7 +92,21 @@ class Feed extends Component {
 					<h1>My faves</h1>
 					{this.props.faves.map((fave,i) => {
 						return (
-							<Image key={i} src={fave.gif_source} responsive/>
+							<div key={i} className="list">
+								{fave.text ? (
+									<div>
+										<Image src={fave && fave.user && fave.user.profile_image_url} alt={i} responsive/>
+										<a>{fave.user && fave.user.name}</a>
+										<p>{fave.text}</p>
+									</div>
+									)
+								: fave.name ? 
+								<p>Restaurant: {fave.name}. 
+								Type: {fave.categories && fave.categories[0] && fave.categories[0].title} 
+								{fave.rating} {fave.price}
+								</p>
+								:<Image src={fave.gif_source} responsive/>	}
+							</div>
 							)
 					})}
 				</div>
