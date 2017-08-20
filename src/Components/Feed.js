@@ -39,7 +39,7 @@ class Feed extends Component {
 										<Image src={travel && travel.user && travel.user.profile_image_url} alt={i} responsive/>
 									</li>
 									<li>
-										<a>{travel.user && travel.user.name}</a>
+										<p><strong>{travel.user && travel.user.name}</strong></p>
 									</li>
 									<li>
 										{travel.text}
@@ -69,9 +69,9 @@ class Feed extends Component {
 									</li>
 									<li>
 										<p>
-												Restaurant: {review.name}. 
-												Type: {review.categories && review.categories[0] && review.categories[0].title} 
-												{review.rating} {review.price}
+												Restaurant: <strong>{review.name}</strong>. 
+												Type: <strong>{review.categories && review.categories[0] && review.categories[0].title}</strong>. 
+												Rating: <strong>{review.rating}</strong>. Price: <strong>{review.price}</strong>
 											</p>
 									</li>
 									<li>

@@ -75,19 +75,22 @@ class App extends Component {
 	handleStar(e) {
 		this.setState({
 			starred: [e, ...this.state.starred]
-		});
-		// const current = this.state.starred;
-		// fetch('https://the-london-feed.herokuapp.com/star',
-		// 	{
-	 //   headers: {
-	 //     'Content-Type': 'text/plain'
-	 //   },
-	 //   method: "POST",
-	 //   data_type: "",
-	 //   data_id: e.name || e.id,
-	 //   body: JSON.stringify(current)
-		// 	})
-		// .then(function(res){ console.log(res) })
+		});	
+		fetch('https://the-london-feed.herokuapp.com/star', {
+		  method: 'POST',
+		  headers: {
+		    'Accept': 'application/json',
+		    'Content-Type': 'application/json',
+		  },
+		  body: JSON.stringify({
+		    data_type: 'travel',
+		    data_id: '1',
+		    data: 'example'
+		  })
+		})
+		.then(response => response.json())
+		.then(data => console.log(data))
+		.catch(e => console.error(e));
 	}
 
 	render() {
