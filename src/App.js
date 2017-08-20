@@ -50,36 +50,44 @@ class App extends Component {
 					gifsSource: gifs,
 				});
 				socket_travel.on('message', ({data: {text, user}} = {}) => {
-					if (!text) { return }
+					if (!text) { return; }
 					this.setState({
 						travelSource: [{text, user}, ...this.state.travelSource]
-					})
+					});
 				});
 				socket_reviews.on('message', ({data} = {}) => {
-					if (!data) { return }
-						console.log(data);
-						// const review = { price, name }
+					if (!data) { return; }
 					this.setState({
 						reviewsSource: [data, ...this.state.reviewsSource]
-					})
+					});
 				});
 				socket_gifs.on('message', ({data: {gif_source} } = {} ) => { 
-					if  (!gif_source) { return }
-						const gif = {gif_source}
+					if  (!gif_source) { return; }
 					this.setState({
 						gifsSource: [{gif_source}, ...this.state.gifsSource]
-					}/*, () => console.log(this.state.gifsSource)*/)
+					}/*, () => console.log(this.state.gifsSource)*/);
 				});
 
 			})
 			.catch(e => console.error(e));
 	}
 
- handleStar(e) {
- 	console.log(this.state.starred);
- 	this.setState({
- 		starred: [e, ...this.state.starred]
- 	})
+	handleStar(e) {
+		this.setState({
+			starred: [e, ...this.state.starred]
+		});
+		// const current = this.state.starred;
+		// fetch('https://the-london-feed.herokuapp.com/star',
+		// 	{
+	 //   headers: {
+	 //     'Content-Type': 'text/plain'
+	 //   },
+	 //   method: "POST",
+	 //   data_type: "",
+	 //   data_id: e.name || e.id,
+	 //   body: JSON.stringify(current)
+		// 	})
+		// .then(function(res){ console.log(res) })
 	}
 
 	render() {
@@ -88,8 +96,8 @@ class App extends Component {
 			<div>
 				<Header eventKey={this.state.activeKey} handleClick={this.handleSelect}/>
 				<Feed currentTab={this.state.activeKey} travelSource={this.state.travelSource} 
-				reviewsSource={this.state.reviewsSource} gifsSource={this.state.gifsSource} 
-				handleStar={this.handleStar} style={this.state.currentStar} faves={this.state.starred} />
+					reviewsSource={this.state.reviewsSource} gifsSource={this.state.gifsSource} 
+					handleStar={this.handleStar} style={this.state.currentStar} faves={this.state.starred} />
 			</div>
 		);
 	}

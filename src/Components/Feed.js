@@ -18,7 +18,7 @@ class Feed extends Component {
 		});
 
 		return (
-			<div>
+			<div className='feed'>
 				{this.props.currentTab === 0 ? 
 				<div>
 					<h1>Updates</h1>
@@ -26,17 +26,25 @@ class Feed extends Component {
 						const unique = `${travel.id}${i}`
 						return (
 							<div key={unique} className="list">
-								<Image src={travel && travel.user && travel.user.profile_image_url} alt={i} responsive/>
-								<a>{travel.user && travel.user.name}</a>
-								<p>
-									<Image style={this.props.style[0] === true && this.props.style[1] ? 
-										{backgroundColor: 'yellow' } : {backgroundColor: 'none' } } 
-										src={star} 
-										className="star" 
-										data-id={travel.id} 
-										onClick={this.props.handleStar.bind(this,travel)} responsive/>
-									{travel.text}
-								</p>
+								<ul className='feedRow'>
+									<li>
+										<Image style={this.props.style[0] === true && this.props.style[1] ? 
+											{backgroundColor: 'yellow' } : {backgroundColor: 'none' } } 
+											src={star} 
+											className="star" 
+											data-id={travel.id} 
+											onClick={this.props.handleStar.bind(this,travel)} responsive/>
+									</li>
+									<li>
+										<Image src={travel && travel.user && travel.user.profile_image_url} alt={i} responsive/>
+									</li>
+									<li>
+										<a>{travel.user && travel.user.name}</a>
+									</li>
+									<li>
+										{travel.text}
+									</li>
+								</ul>
 							</div>
 							)
 					})}
@@ -50,17 +58,25 @@ class Feed extends Component {
 						const unique = `${review.id}${i}`
 						return (
 							<div key={unique} className='list'>
-							<p>
-								<Image style={this.props.style[0] === true && this.props.style[1] ? 
-								{backgroundColor: 'yellow' } : {backgroundColor: 'none' } } 
-								src={star} 
-								className="star" 
-								data-id={review.id} 
-								onClick={this.props.handleStar.bind(this,review)} responsive/>
-									Restaurant: {review.name}. 
-									Type: {review.categories && review.categories[0] && review.categories[0].title} 
-									{review.rating} {review.price}
-								</p>
+								<ul className='feedRow'>
+									<li>
+										<Image style={this.props.style[0] === true && this.props.style[1] ? 
+										{backgroundColor: 'yellow' } : {backgroundColor: 'none' } } 
+										src={star} 
+										className="star" 
+										data-id={review.id} 
+										onClick={this.props.handleStar.bind(this,review)} responsive/>
+									</li>
+									<li>
+										<p>
+												Restaurant: {review.name}. 
+												Type: {review.categories && review.categories[0] && review.categories[0].title} 
+												{review.rating} {review.price}
+											</p>
+									</li>
+									<li>
+									</li>
+								</ul>
 							</div>
 							)
 					})}
@@ -93,19 +109,23 @@ class Feed extends Component {
 					{this.props.faves.map((fave,i) => {
 						return (
 							<div key={i} className="list">
-								{fave.text ? (
-									<div>
-										<Image src={fave && fave.user && fave.user.profile_image_url} alt={i} responsive/>
-										<a>{fave.user && fave.user.name}</a>
-										<p>{fave.text}</p>
-									</div>
-									)
-								: fave.name ? 
-								<p>Restaurant: {fave.name}. 
-								Type: {fave.categories && fave.categories[0] && fave.categories[0].title} 
-								{fave.rating} {fave.price}
-								</p>
-								:<Image src={fave.gif_source} responsive/>	}
+								<ul className='feedRow'>
+									<li>
+										{fave.text ? (
+											<div>
+												<Image src={fave && fave.user && fave.user.profile_image_url} alt={i} responsive/>
+												<a>{fave.user && fave.user.name}</a>
+												<p>{fave.text}</p>
+											</div>
+											)
+										: fave.name ? 
+										<p>Restaurant: {fave.name}. 
+										Type: {fave.categories && fave.categories[0] && fave.categories[0].title} 
+										{fave.rating} {fave.price}
+										</p>
+										:<Image src={fave.gif_source} responsive/>	}
+									</li>
+								</ul>
 							</div>
 							)
 					})}

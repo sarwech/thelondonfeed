@@ -11,7 +11,7 @@ class Header extends Component {
 			<div>
 				<div className='header'>
 					<ul>
-						<li><h1>The FEED</h1></li>
+						<li><h1 className='name'>The FEED</h1></li>
 						<li><Image src={skyline} alt='banner' responsive /></li>
 					</ul>
      <Nav bsStyle='tabs' activeKey={this.props.eventKey} >
