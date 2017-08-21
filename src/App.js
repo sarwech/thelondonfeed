@@ -56,7 +56,7 @@ class App extends Component {
 					});
 				});
 				socket_reviews.on('message', ({data} = {}) => {
-					if (!data) { return; }
+					if (!data.name) { return; }
 					this.setState({
 						reviewsSource: [data, ...this.state.reviewsSource]
 					});
