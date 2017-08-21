@@ -49,10 +49,10 @@ class App extends Component {
 					reviewsSource: reviews,
 					gifsSource: gifs,
 				});
-				socket_travel.on('message', ({data: {text, user}} = {}) => {
-					if (!text) { return; }
+				socket_travel.on('message', ({data} = {}) => {
+					if (!data.text) { return; }
 					this.setState({
-						travelSource: [{text, user}, ...this.state.travelSource]
+						travelSource: [data, ...this.state.travelSource]
 					});
 				});
 				socket_reviews.on('message', ({data} = {}) => {
@@ -61,10 +61,10 @@ class App extends Component {
 						reviewsSource: [data, ...this.state.reviewsSource]
 					});
 				});
-				socket_gifs.on('message', ({data: {gif_source} } = {} ) => { 
-					if  (!gif_source) { return; }
+				socket_gifs.on('message', ({data} = {} ) => { 
+					if  (!data.gif_source) { return; }
 					this.setState({
-						gifsSource: [{gif_source}, ...this.state.gifsSource]
+						gifsSource: [data, ...this.state.gifsSource]
 					}/*, () => console.log(this.state.gifsSource)*/);
 				});
 
@@ -73,9 +73,14 @@ class App extends Component {
 	}
 
 	handleStar(e) {
+		console.log(e);
 		this.setState({
 			starred: [e, ...this.state.starred]
 		});	
+
+		const type = e.id_str ? 'travel' : e.name ? 'reviews' : e.gif_source ? 'gifs' :null;
+		const starId = type === 'travel' ? e.id_str : type === 'reviews' ? e.id : type === 'gifs' ? e.id :null;
+
 		fetch('https://the-london-feed.herokuapp.com/star', {
 		  method: 'POST',
 		  headers: {
@@ -83,9 +88,8 @@ class App extends Component {
 		    'Content-Type': 'application/json',
 		  },
 		  body: JSON.stringify({
-		    data_type: 'travel',
-		    data_id: '1',
-		    data: 'example'
+		    data_type: type,
+		    data_id: starId,
 		  })
 		})
 		.then(response => response.json())
