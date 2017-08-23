@@ -1,2 +1,2 @@
-A React version of thelondonfeed requesting london travel and reviews via APIs and updates via web sockets
+A React work in progress app which shows you London travel and reviews via APIs and updates via web sockets
 

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Image } from 'react-bootstrap';
 import star from '../star.png';
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
 
 class Feed extends Component {
 
@@ -22,32 +23,34 @@ class Feed extends Component {
 				{this.props.currentTab === 0 ? 
 				<div>
 					<h1>Updates</h1>
-					{this.props.travelSource.map((travel,i) => {
-						const unique = `${travel.id}${i}`
-						return (
-							<div key={unique} className="list">
-								<ul className='feedRow'>
-									<li>
-										<Image style={this.props.style[0] === true && this.props.style[1] ? 
-											{backgroundColor: 'yellow' } : {backgroundColor: 'none' } } 
-											src={star} 
-											className="star" 
-											data-id={travel.id} 
-											onClick={this.props.handleStar.bind(this,travel)} responsive/>
-									</li>
-									<li>
-										<Image src={travel && travel.user && travel.user.profile_image_url} alt={i} responsive/>
-									</li>
-									<li>
-										<p><strong>{travel.user && travel.user.name}</strong></p>
-									</li>
-									<li>
-										{travel.text}
-									</li>
-								</ul>
-							</div>
+      				<ReactCSSTransitionGroup transitionName="example" transitionEnterTimeout={700} transitionLeaveTimeout={700}>
+						{this.props.travelSource.map((travel,i) => {
+							const unique = `${travel.id}${i}`
+							return (
+								<div key={unique} className="list">
+									<ul className='feedRow'>
+										<li>
+											<Image style={this.props.style[0] === true && this.props.style[1] ? 
+												{backgroundColor: 'yellow' } : {backgroundColor: 'none' } } 
+												src={star} 
+												className="star" 
+												data-id={travel.id} 
+												onClick={this.props.handleStar.bind(this,travel)} responsive/>
+										</li>
+										<li>
+											<Image src={travel && travel.user && travel.user.profile_image_url} alt={i} responsive/>
+										</li>
+										<li>
+											<p><strong>{travel.user && travel.user.name}</strong></p>
+										</li>
+										<li>
+											{travel.text}
+										</li>
+									</ul>
+								</div>
 							)
-					})}
+						})}
+					</ReactCSSTransitionGroup>
 				</div>
 				:null}
 
